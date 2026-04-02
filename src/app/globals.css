@@ -1,0 +1,49 @@
+@import "../styles/overrides/app-overrides.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f7f8fc;
+  color: #112032;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.buddy-field-error {
+  margin: 8px 0 0;
+  color: #e34f5f;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.buddy-form-message {
+  margin-top: 12px;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.buddy-form-message_error {
+  background: rgba(227, 79, 95, 0.1);
+  color: #b22435;
+}
