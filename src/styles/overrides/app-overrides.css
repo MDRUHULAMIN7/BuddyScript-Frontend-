@@ -110,6 +110,124 @@
   padding-top: 12px;
 }
 
+.buddy-reset-button._feed_timeline_dropdown_link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+}
+
+.buddy-total-reactions-button {
+  display: block;
+  line-height: 1;
+}
+
+.buddy-reaction-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buddy-comment-reactions {
+  display: flex;
+  align-items: center;
+}
+
+.buddy-comment-action-button span {
+  display: block;
+}
+
+.buddy-comment-action-button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.buddy-comment-replies-toggle {
+  margin: 0 0 12px;
+}
+
+._comment_area {
+  min-width: 0;
+}
+
+._comment_details {
+  min-width: min(100%, 240px);
+  margin: 0 0 50px;
+}
+
+._comment_reply_num {
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: -37px;
+  width: max-content;
+  max-width: calc(100vw - 140px);
+}
+
+._comment_reply_list {
+  flex-wrap: nowrap;
+  gap: 0;
+  padding-right: 0;
+  width: max-content;
+  white-space: nowrap;
+}
+
+._comment_reply_list li {
+  margin: 0 4px 0 0;
+  flex: 0 0 auto;
+}
+
+._comment_reply {
+  margin: 0;
+}
+
+._comment_reply_list li ._time_link {
+  white-space: nowrap;
+}
+
+._total_reactions {
+  right: 0;
+  bottom: -14px;
+  z-index: 1;
+}
+
+._left_inner_area_explore_link .buddy-explore-fill,
+._left_inner_area_explore_link .buddy-explore-stroke {
+  transition: 0.2s ease;
+}
+
+._left_inner_area_explore_link .buddy-explore-fill {
+  fill: #666;
+}
+
+._left_inner_area_explore_link .buddy-explore-stroke {
+  stroke: #666;
+}
+
+._left_inner_area_explore_link:hover .buddy-explore-fill {
+  fill: var(--color5);
+}
+
+._left_inner_area_explore_link:hover .buddy-explore-stroke {
+  stroke: var(--color5);
+}
+
+._dark_wrapper ._left_inner_area_explore_link .buddy-explore-fill {
+  fill: rgba(255, 255, 255, 0.46);
+}
+
+._dark_wrapper ._left_inner_area_explore_link .buddy-explore-stroke {
+  stroke: rgba(255, 255, 255, 0.46);
+}
+
+._dark_wrapper ._left_inner_area_explore_link:hover .buddy-explore-fill {
+  fill: var(--color5);
+}
+
+._dark_wrapper ._left_inner_area_explore_link:hover .buddy-explore-stroke {
+  stroke: var(--color5);
+}
+
 .buddy-floating-notifications {
   position: fixed;
   top: 92px;
