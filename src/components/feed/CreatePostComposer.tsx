@@ -50,7 +50,7 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
   return (
     <div
       className={clsx(
-        "mb-4 overflow-hidden rounded-[6px] px-6 py-6",
+        "mb-4 overflow-hidden rounded-[6px] px-6 pt-6",
         isDark ? "bg-[#15243a]" : "bg-white",
       )}
     >
@@ -58,61 +58,34 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
         <img
           src={getAssetUrl(currentUser.profilePicture || "/assets/images/txt_img.png")}
           alt={getFullName(currentUser.firstName, currentUser.lastName)}
-          className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-[#f3c24d]"
+          className="h-10 w-10 shrink-0 rounded-full object-cover"
         />
 
-        <div className="min-w-0 flex-1">
-          <label
-            htmlFor="feed-post-textarea"
-            className={clsx(
-              "mb-3 inline-flex items-center gap-2 text-[15px] font-medium",
-              isDark ? "text-white/78" : "text-[#6c7280]",
-            )}
-          >
-            Write something ...
-            <ComposerPencilIcon className={isDark ? "text-white/45" : "text-black/40"} />
-          </label>
+        <div className="relative min-w-0 flex-1">
           <textarea
             id="feed-post-textarea"
             className={clsx(
-              "min-h-[108px] w-full resize-none rounded-[22px] border px-4 py-4 text-[15px] outline-none transition placeholder:text-current/40 focus:ring-4",
+              "h-[88px] w-full resize-none border-none bg-transparent px-2 pb-3 pt-2 text-[15px] leading-6 outline-none transition",
               isDark
-                ? "border-white/10 bg-[#0f1b2d] text-white focus:border-[#1890ff] focus:ring-[#1890ff]/10"
-                : "border-black/8 bg-[#f6f7fb] text-[#112032] focus:border-[#1890ff] focus:ring-[#1890ff]/10",
+                ? "text-white"
+                : "text-[#112032]",
             )}
-            placeholder="Share what is on your mind today..."
+            placeholder=" "
             value={text}
             onChange={(event) => setText(event.target.value)}
           />
+          <label
+            htmlFor="feed-post-textarea"
+            className={clsx(
+              "pointer-events-none absolute left-2 top-2 inline-flex items-center gap-2 text-[16px] font-normal leading-[1.1] transition-opacity",
+              text.trim() ? "opacity-0" : "opacity-100",
+              isDark ? "text-white/68" : "text-[#666666]",
+            )}
+          >
+            Write something ...
+            <ComposerPencilIcon className={isDark ? "text-white/45" : "text-[#666666]"} />
+          </label>
         </div>
-      </div>
-
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <label
-          htmlFor="post-visibility"
-          className={clsx("text-sm font-medium", isDark ? "text-white/70" : "text-black/55")}
-        >
-          Audience
-        </label>
-        <select
-          id="post-visibility"
-          className={clsx(
-            "h-10 min-w-[130px] rounded-full border px-4 text-sm outline-none transition focus:ring-4",
-            isDark
-              ? "border-white/10 bg-[#0f1b2d] text-white focus:border-[#1890ff] focus:ring-[#1890ff]/10"
-              : "border-black/8 bg-[#f6f7fb] text-[#112032] focus:border-[#1890ff] focus:ring-[#1890ff]/10",
-          )}
-          value={visibility}
-          onChange={(event) => setVisibility(event.target.value as "private" | "public")}
-        >
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-        {selectedFile ? (
-          <span className={clsx("truncate text-sm", isDark ? "text-white/58" : "text-black/48")}>
-            {selectedFile.name}
-          </span>
-        ) : null}
       </div>
 
       {createPostMutation.isError ? (
@@ -121,10 +94,9 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
         </div>
       ) : null}
 
-        <div
-          className={clsx(
-          "mt-5 flex flex-col gap-4 rounded-b-[6px] px-[15px] py-4 md:flex-row md:items-center md:justify-between",
-          isDark ? "bg-[#102036]" : "bg-[rgba(24,144,255,0.05)]",
+      <div
+        className={clsx(
+          "mt-[10px] flex min-h-[64px] flex-col gap-4 rounded-b-[6px] bg-[rgba(24,144,255,0.05)] px-[15px] py-3 md:flex-row md:items-center md:justify-between",
         )}
       >
         <div className="flex flex-wrap items-center gap-2">
@@ -156,17 +128,38 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
             label="Article"
             isDark={isDark}
           />
+          {selectedFile ? (
+            <span className={clsx("ml-1 max-w-[180px] truncate text-[13px] leading-5", isDark ? "text-white/58" : "text-[#666666]")}>
+              {selectedFile.name}
+            </span>
+          ) : null}
         </div>
 
-        <button
-          type="button"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-[6px] bg-[#1890ff] px-[22px] text-sm font-medium text-white transition hover:bg-[#377dff] disabled:cursor-not-allowed disabled:opacity-70"
-          onClick={handleSubmit}
-          disabled={createPostMutation.isPending}
-        >
-          <ComposerPostIcon />
-          <span>{createPostMutation.isPending ? "Posting..." : "Post"}</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-3 md:justify-end">
+          <select
+            id="post-visibility"
+            aria-label="Post visibility"
+            className={clsx(
+              "h-10 rounded-full border border-transparent bg-transparent px-3 text-[14px] outline-none transition focus:border-[#1890ff]",
+              isDark ? "text-white/72" : "text-[#666666]",
+            )}
+            value={visibility}
+            onChange={(event) => setVisibility(event.target.value as "private" | "public")}
+          >
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+
+          <button
+            type="button"
+            className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#1890ff] px-[22px] py-3 text-[16px] font-medium leading-6 text-white transition hover:bg-[#377dff] disabled:cursor-not-allowed disabled:opacity-70"
+            onClick={handleSubmit}
+            disabled={createPostMutation.isPending}
+          >
+            <ComposerPostIcon />
+            <span>{createPostMutation.isPending ? "Posting..." : "Post"}</span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -188,7 +181,7 @@ function ComposerActionButton({
       type="button"
       onClick={onClick}
       className={clsx(
-        "inline-flex h-11 items-center gap-2 rounded-[6px] px-[10px] text-sm font-normal transition",
+        "inline-flex items-center gap-2 px-[10px] py-2 text-[16px] font-normal leading-[23px] transition",
         isDark ? "bg-transparent text-white/78 hover:text-[#1890ff]" : "bg-transparent text-[#666666] hover:text-[#1890ff]",
       )}
     >

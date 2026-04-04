@@ -155,7 +155,7 @@ export function FeedChrome({
   onLogout,
 }: FeedChromeProps) {
   return (
-    <div className={clsx("min-h-screen", isDark ? "bg-[#111f34]" : "bg-[#f5f7fb]")}>
+    <div className={clsx("min-h-screen", isDark ? "bg-[#232e42]" : "bg-[#f0f2f5]")}>
       <ThemeToggle isDark={isDark} onToggleDark={onToggleDark} />
       <TopNavbar
         currentUser={currentUser}
@@ -241,21 +241,19 @@ function TopNavbar({
     <header
       className={clsx(
         "sticky top-0 z-40 hidden border-b lg:block",
-        isDark ? "border-white/6 bg-[#13253a]" : "border-black/5 bg-white",
+        isDark ? "border-white/6 bg-[#112032]" : "border-black/5 bg-white",
       )}
     >
       <div className="mx-auto flex h-[72px] w-full max-w-[1360px] items-center px-5 xl:px-6">
-        <Link href={routes.feed} className="shrink-0">
-          <img src="/assets/images/logo.svg" alt="BuddyScript" className="h-auto w-[169px]" />
+        <Link href={routes.feed} className="shrink-0 transition-transform duration-200 hover:scale-[0.985]">
+          <img src="/assets/images/logo.svg" alt="BuddyScript" className="block h-auto w-[160px]" />
         </Link>
 
-        <div className="flex-1" />
-
-        <div className="ml-auto w-[424px] shrink-0">
+        <div className="ml-[72px] w-[424px] shrink-0 xl:ml-[94px]">
           <SearchField isDark={isDark} placeholder="input search text" variant="navbar" />
         </div>
 
-        <nav className="ml-auto flex items-center">
+        <nav className="ml-auto flex items-center pl-8 xl:pl-10">
           <NavIconButton active isDark={isDark} ariaLabel="Home">
             <HomeNavIcon />
           </NavIconButton>
@@ -274,13 +272,17 @@ function TopNavbar({
             >
               <NotificationNavIcon />
             </NavIconButton>
-            {showNotifications ? (
-              <div
-                className={clsx(
-                  "absolute left-[-110px] top-[32px] z-30 max-h-[calc(100vh-90px)] w-[400px] overflow-auto rounded-[6px] p-4 shadow-[0_8px_24px_rgba(149,157,165,0.2)]",
-                  isDark ? "bg-[#15243a] text-white" : "bg-white text-[#5f6674]",
-                )}
-              >
+            <div
+              className={clsx(
+                "absolute left-[-110px] top-[32px] z-30 max-h-[calc(100vh-90px)] w-[400px] overflow-auto rounded-[6px] p-4 transition-all duration-200 ease-linear",
+                showNotifications
+                  ? "pointer-events-auto visible translate-y-10 opacity-100"
+                  : "pointer-events-none invisible translate-y-5 opacity-0",
+                isDark
+                  ? "bg-[#112032] text-white shadow-none"
+                  : "bg-white text-[#5f6674] shadow-[0_8px_24px_rgba(149,157,165,0.2)]",
+              )}
+            >
                 <div className="mb-5 flex items-center justify-between">
                   <h3 className={clsx("text-[20px] font-semibold leading-[1.2]", isDark ? "text-white" : "text-[#112032]")}>
                     Notifications
@@ -297,7 +299,7 @@ function TopNavbar({
                       <div
                         className={clsx(
                           "absolute right-0 top-9 z-10 w-[220px] p-4 shadow-[0_8px_24px_rgba(149,157,165,0.2)]",
-                          isDark ? "bg-[#102036]" : "bg-white",
+                          isDark ? "bg-[#232e42] shadow-none" : "bg-white",
                         )}
                       >
                         <ul className="space-y-[10px]">
@@ -335,7 +337,7 @@ function TopNavbar({
                     type="button"
                     className={clsx(
                       "h-9 rounded-[6px] border px-2 text-[16px] font-medium leading-[1.2]",
-                      isDark ? "border-white/10 text-white" : "border-[#f1f1f1] text-[#112032]",
+                      isDark ? "border-[#1890ff] bg-transparent text-white/72" : "border-[#f1f1f1] text-[#112032]",
                     )}
                   >
                     Unread
@@ -348,7 +350,7 @@ function TopNavbar({
                       type="button"
                       className={clsx(
                         "mb-4 flex w-full items-center gap-3 rounded-[6px] px-[6px] py-[6px] text-left transition last:mb-0",
-                        isDark ? "hover:bg-white/8" : "hover:bg-black/10",
+                        isDark ? "hover:bg-[#66666621]" : "hover:bg-black/10",
                       )}
                     >
                       <img
@@ -387,8 +389,7 @@ function TopNavbar({
                     </button>
                   ))}
                 </div>
-              </div>
-            ) : null}
+            </div>
           </div>
           <NavIconButton isDark={isDark} badge="2" ariaLabel="Messages">
             <ChatNavIcon />
@@ -413,13 +414,17 @@ function TopNavbar({
               </span>
               <ProfileChevronIcon className={clsx("ml-2", isDark ? "text-white" : "text-[#112032]")} />
             </button>
-            {showProfileMenu ? (
-              <div
-                className={clsx(
-                  "absolute right-0 top-0 z-30 w-[312px] translate-y-10 rounded-[6px] px-4 py-4 shadow-[0_10px_20px_rgba(0,0,0,0.08)]",
-                  isDark ? "bg-[#15243a]" : "bg-white",
-                )}
-              >
+            <div
+              className={clsx(
+                "absolute right-0 top-0 z-30 w-[312px] rounded-[6px] px-4 py-4 transition-all duration-200 ease-linear",
+                showProfileMenu
+                  ? "pointer-events-auto visible translate-y-10 opacity-100"
+                  : "pointer-events-none invisible translate-y-5 opacity-0",
+                isDark
+                  ? "bg-[#112032] shadow-none"
+                  : "bg-white shadow-[0_10px_20px_rgba(0,0,0,0.08)]",
+              )}
+            >
                 <div className="flex items-center">
                   <img
                     src={getAssetUrl(currentUser.profilePicture || "/assets/images/profile-1.png")}
@@ -441,8 +446,7 @@ function TopNavbar({
                   <ProfileActionButton isDark={isDark} icon={<HelpIcon className="text-[#1890ff]" />} label="Help & Support" />
                   <ProfileActionButton isDark={isDark} icon={<LogoutIcon className="text-[#1890ff]" />} label="Log Out" onClick={onLogout} />
                 </div>
-              </div>
-            ) : null}
+            </div>
           </div>
         </nav>
       </div>
@@ -501,13 +505,18 @@ function LeftSidebar({ isDark }: { isDark: boolean }) {
                 key={item.label}
                 type="button"
                 className={clsx(
-                  "flex w-full items-center justify-between gap-4 text-left transition",
-                  isDark ? "text-white/76 hover:text-[#1890ff]" : "text-[#5b6270] hover:text-[#1890ff]",
+                  "group flex w-full items-center justify-between gap-4 text-left transition",
+                  isDark ? "text-white hover:text-[#1890ff]" : "text-[#666666] hover:text-[#1890ff]",
                 )}
               >
                 <span className="flex items-center gap-4">
                   <span className="grid h-6 w-6 place-items-center">
-                    <item.icon className={isDark ? "text-white/55" : "text-[#7a808d]"} />
+                    <item.icon
+                      className={clsx(
+                        "transition-colors duration-200 group-hover:text-[#1890ff]",
+                        isDark ? "text-white" : "text-[#666666]",
+                      )}
+                    />
                   </span>
                   <span className="text-[16px] font-medium">{item.label}</span>
                 </span>
@@ -780,7 +789,7 @@ function SidebarCard({
   isDark: boolean;
 }) {
   return (
-    <div className={clsx("rounded-[6px]", className, isDark ? "bg-[#15243a]" : "bg-white")}>
+    <div className={clsx("rounded-[6px]", className, isDark ? "bg-[#112032]" : "bg-white")}>
       {children}
     </div>
   );
@@ -805,20 +814,20 @@ function SearchField({
         "flex items-center gap-3 rounded-[32px] border transition",
         variant === "navbar"
           ? isDark
-            ? "h-10 border-[#26344c] bg-[#26344c] px-[18px] hover:border-[#1890ff]"
-            : "h-10 border-[#f5f5f5] bg-[#f5f5f5] px-[18px] hover:border-[#1890ff]"
+            ? "h-10 border-[#232e42] bg-[#232e42] px-[18px] hover:border-[#1890ff] focus-within:border-[#1890ff]"
+            : "h-10 border-[#f5f5f5] bg-[#f5f5f5] px-[18px] hover:border-[#1890ff] focus-within:border-[#1890ff]"
           : isDark
-            ? "h-10 border-[#26344c] bg-[#26344c] px-[18px]"
-            : "h-10 border-[#f5f5f5] bg-[#f5f5f5] px-[18px]",
+            ? "h-10 border-[#232e42] bg-[#232e42] px-[18px] focus-within:border-[#1890ff]"
+            : "h-10 border-[#f5f5f5] bg-[#f5f5f5] px-[18px] focus-within:border-[#1890ff]",
       )}
     >
-      <SearchIcon className={isDark ? "text-[#1890ff]" : "text-black/45"} />
+      <SearchIcon className={isDark ? "text-[#1890ff]" : "text-[#666666]"} />
       <input
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         className={clsx(
-          "w-full bg-transparent text-[16px] leading-[1.4] outline-none",
+          "w-full bg-transparent text-[16px] leading-[1.4] outline-none transition-[color,opacity] placeholder:transition-opacity focus:placeholder:opacity-0",
           isDark ? "text-white placeholder:text-[#8c8f95]" : "text-black/52 placeholder:text-black/25",
         )}
       />

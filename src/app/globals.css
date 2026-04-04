@@ -32,7 +32,7 @@
 
 @layer components {
   .container {
-    @apply mx-auto w-full max-w-[1280px] px-4;
+    @apply mx-auto w-full max-w-7xl px-4;
   }
 
   .row {
@@ -79,7 +79,10 @@
   .bg-light {
     background: #fff;
   }
-
+   
+  button{
+    cursor: pointer;
+  }
   .form-control {
     @apply block w-full appearance-none;
   }
