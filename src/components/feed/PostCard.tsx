@@ -24,8 +24,8 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <article
       className={clsx(
-        "mb-4 overflow-hidden rounded-[26px] border shadow-[0_24px_70px_rgba(17,32,50,0.06)]",
-        isDark ? "border-white/10 bg-[#15243a] shadow-none" : "border-black/6 bg-white",
+        "mb-4 overflow-hidden rounded-[6px]",
+        isDark ? "bg-[#15243a]" : "bg-white",
       )}
     >
       <div className="px-5 pb-5 pt-5 md:px-6">
@@ -68,7 +68,7 @@ export function PostCard({ post }: PostCardProps) {
             {showMenu ? (
               <div
                 className={clsx(
-                  "absolute right-0 top-12 z-20 w-[270px] rounded-[22px] border p-3 shadow-[0_24px_70px_rgba(17,32,50,0.15)]",
+                  "absolute right-0 top-12 z-20 w-[270px] rounded-[6px] border p-3 shadow-[0_24px_70px_rgba(17,32,50,0.15)]",
                   isDark ? "border-white/10 bg-[#102036]" : "border-black/6 bg-white",
                 )}
               >
@@ -96,7 +96,7 @@ export function PostCard({ post }: PostCardProps) {
         ) : null}
 
         {post.imageUrl ? (
-          <div className="mt-5 overflow-hidden rounded-[22px]">
+          <div className="mt-5 overflow-hidden rounded-[6px]">
             <img src={getAssetUrl(post.imageUrl)} alt="Post" className="h-auto w-full object-cover" />
           </div>
         ) : null}
@@ -135,7 +135,7 @@ export function PostCard({ post }: PostCardProps) {
 
       <div
         className={clsx(
-          "grid grid-cols-3 gap-2 px-3 py-3",
+          "grid grid-cols-3 gap-1 px-2 py-2",
           isDark ? "bg-[#112033]" : "bg-[#fbfcfd]",
         )}
       >
@@ -174,7 +174,7 @@ function MenuAction({
     <button
       type="button"
       className={clsx(
-        "flex w-full items-center gap-3 rounded-[16px] px-3 py-3 text-left text-[15px] font-medium transition",
+        "flex w-full items-center gap-3 rounded-[6px] px-3 py-3 text-left text-[15px] font-medium transition",
         isDark ? "text-white/78 hover:bg-white/7" : "text-[#112032] hover:bg-[#f5f8ff]",
       )}
     >
@@ -202,7 +202,7 @@ function ReactionButton({
       type="button"
       onClick={onClick}
       className={clsx(
-        "inline-flex h-12 items-center justify-center gap-2 rounded-[16px] px-3 text-sm font-medium transition",
+        "inline-flex h-12 items-center justify-center gap-2 rounded-[6px] px-3 text-sm font-medium transition",
         active
           ? "bg-[#e4f1fd] text-[#112032]"
           : isDark

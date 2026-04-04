@@ -50,8 +50,8 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
   return (
     <div
       className={clsx(
-        "mb-4 rounded-[26px] border px-5 py-5 shadow-[0_24px_70px_rgba(17,32,50,0.06)] md:px-6",
-        isDark ? "border-white/10 bg-[#15243a] shadow-none" : "border-black/6 bg-white",
+        "mb-4 overflow-hidden rounded-[6px] px-6 py-6",
+        isDark ? "bg-[#15243a]" : "bg-white",
       )}
     >
       <div className="flex items-start gap-4">
@@ -121,10 +121,10 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
         </div>
       ) : null}
 
-      <div
-        className={clsx(
-          "mt-5 flex flex-col gap-4 border-t pt-5 md:flex-row md:items-center md:justify-between",
-          isDark ? "border-white/10" : "border-black/6",
+        <div
+          className={clsx(
+          "mt-5 flex flex-col gap-4 rounded-b-[6px] px-[15px] py-4 md:flex-row md:items-center md:justify-between",
+          isDark ? "bg-[#102036]" : "bg-[rgba(24,144,255,0.05)]",
         )}
       >
         <div className="flex flex-wrap items-center gap-2">
@@ -160,7 +160,7 @@ export function CreatePostComposer({ currentUser }: CreatePostComposerProps) {
 
         <button
           type="button"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-[#1890ff] px-6 text-sm font-semibold text-white shadow-[0_18px_38px_rgba(24,144,255,0.28)] transition hover:bg-[#0d7de8] disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-[6px] bg-[#1890ff] px-[22px] text-sm font-medium text-white transition hover:bg-[#377dff] disabled:cursor-not-allowed disabled:opacity-70"
           onClick={handleSubmit}
           disabled={createPostMutation.isPending}
         >
@@ -188,8 +188,8 @@ function ComposerActionButton({
       type="button"
       onClick={onClick}
       className={clsx(
-        "inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-medium transition",
-        isDark ? "bg-white/5 text-white/78 hover:bg-white/10" : "bg-[#f4f6fb] text-[#112032] hover:bg-[#ebf3ff]",
+        "inline-flex h-11 items-center gap-2 rounded-[6px] px-[10px] text-sm font-normal transition",
+        isDark ? "bg-transparent text-white/78 hover:text-[#1890ff]" : "bg-transparent text-[#666666] hover:text-[#1890ff]",
       )}
     >
       <span className="grid place-items-center">{icon}</span>

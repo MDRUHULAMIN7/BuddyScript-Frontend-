@@ -57,10 +57,18 @@ const exploreItems: ExploreItem[] = [
 ];
 
 const stories: StoryCard[] = [
-  { name: "Your Story", image: "/assets/images/slider1.png", isMine: true },
-  { name: "Ryan Roslansky", image: "/assets/images/slider2.png", mini: "/assets/images/mini_pic.png" },
-  { name: "Ryan Roslansky", image: "/assets/images/slider3.png", mini: "/assets/images/mini_pic.png" },
-  { name: "Ryan Roslansky", image: "/assets/images/slider4.png", mini: "/assets/images/mini_pic.png" },
+  { name: "Your Story", image: "/assets/images/card_ppl1.png", isMine: true },
+  { name: "Ryan Roslansky", image: "/assets/images/card_ppl2.png", mini: "/assets/images/mini_pic.png" },
+  { name: "Ryan Roslansky", image: "/assets/images/card_ppl3.png", mini: "/assets/images/mini_pic.png" },
+  { name: "Ryan Roslansky", image: "/assets/images/card_ppl4.png", mini: "/assets/images/mini_pic.png" },
+];
+
+const mobileStories: StoryCard[] = [
+  { name: "Your Story", image: "/assets/images/mobile_story_img.png", isMine: true },
+  { name: "Ryan...", image: "/assets/images/mobile_story_img1.png" },
+  { name: "Ryan...", image: "/assets/images/mobile_story_img2.png" },
+  { name: "Ryan...", image: "/assets/images/mobile_story_img1.png" },
+  { name: "Ryan...", image: "/assets/images/mobile_story_img2.png" },
 ];
 
 const notifications = [
@@ -109,8 +117,8 @@ export function FeedChrome({
       />
       <MobileHeader currentUser={currentUser} isDark={isDark} onToggleProfile={onToggleProfile} />
 
-      <main className="mx-auto w-full max-w-[1440px] px-4 pb-24 pt-5 lg:px-6 lg:pt-4 xl:px-8">
-        <div className="grid gap-5 lg:grid-cols-[314px_minmax(0,1fr)] xl:grid-cols-[314px_minmax(0,1fr)_308px]">
+      <main className="mx-auto w-full max-w-[1360px] px-4 pb-24 pt-4 lg:px-5 xl:px-6">
+        <div className="grid gap-4 lg:grid-cols-[252px_minmax(0,1fr)_252px] xl:grid-cols-[282px_minmax(0,1fr)_282px]">
           <LeftSidebar isDark={isDark} />
 
           <section className="min-w-0">
@@ -143,13 +151,13 @@ function TopNavbar({
         isDark ? "border-white/6 bg-[#13253a]/95" : "border-black/5 bg-white/95",
       )}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-6 px-6 xl:px-8">
+      <div className="mx-auto flex h-[72px] w-full max-w-[1360px] items-center gap-6 px-5 xl:px-6">
         <Link href={routes.feed} className="shrink-0">
           <img src="/assets/images/logo.svg" alt="BuddyScript" className="h-10 w-auto" />
         </Link>
 
-        <div className="max-w-[430px] flex-1">
-          <SearchField isDark={isDark} placeholder="input search text" />
+        <div className="max-w-[424px] flex-1">
+          <SearchField isDark={isDark} placeholder="input search text" variant="navbar" />
         </div>
 
         <nav className="ml-auto flex items-center gap-2 xl:gap-3">
@@ -309,9 +317,9 @@ function MobileHeader({
 function LeftSidebar({ isDark }: { isDark: boolean }) {
   return (
     <aside className="hidden lg:block">
-      <SidebarCard isDark={isDark} className="p-8">
+      <SidebarCard isDark={isDark} className="p-6">
         <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Explore</h2>
-        <div className="mt-8 space-y-6">
+        <div className="mt-6 space-y-6">
           {exploreItems.map((item) => (
             <button
               key={item.label}
@@ -342,52 +350,79 @@ function LeftSidebar({ isDark }: { isDark: boolean }) {
 
 function StoryStrip({ isDark }: { isDark: boolean }) {
   return (
-    <div className="relative overflow-hidden rounded-[26px]">
-      <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {stories.map((story) => (
-          <div
-            key={story.name + story.image}
-            className="relative min-w-[146px] overflow-hidden rounded-[8px] shadow-[0_18px_35px_rgba(17,32,50,0.12)]"
-          >
-            <img src={story.image} alt={story.name} className="h-[152px] w-full object-cover" />
-            <div className="absolute inset-0 bg-black/35" />
-            {story.isMine ? (
-              <div className="absolute bottom-0 left-0 right-0 rounded-t-[26px] bg-[#112032] px-4 pb-4 pt-8">
-                <button
-                  type="button"
-                  className="absolute left-1/2 top-0 grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-[#112032] bg-[#1890ff] text-white"
-                >
-                  +
-                </button>
-                <p className="text-center text-[12px] font-semibold text-white">{story.name}</p>
-              </div>
-            ) : (
-              <>
-                {story.mini ? (
-                  <img
-                    src={story.mini}
-                    alt=""
-                    className="absolute right-3 top-3 h-8 w-8 rounded-full border-2 border-white object-cover"
-                  />
-                ) : null}
-                <p className="absolute bottom-3 left-0 right-0 px-3 text-center text-[12px] font-semibold text-white">
-                  {story.name}
-                </p>
-              </>
+    <>
+      <div className="relative hidden lg:block">
+        <div className="grid grid-cols-4 gap-4">
+          {stories.map((story) => (
+            <div key={story.name + story.image} className="relative overflow-hidden rounded-[6px]">
+              <img src={story.image} alt={story.name} className="h-[152px] w-full object-cover" />
+              <div className="absolute inset-0 rounded-[6px] bg-black/50" />
+              {story.isMine ? (
+                <div className="absolute bottom-0 left-0 right-0 rounded-t-[25.5px] bg-[#112032] pb-[10px] pt-[30px]">
+                  <button
+                    type="button"
+                    className="absolute left-1/2 top-0 grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-[#112032] bg-[#1890ff] text-white"
+                  >
+                    +
+                  </button>
+                  <p className="text-center text-[12px] font-medium leading-[19px] text-white">{story.name}</p>
+                </div>
+              ) : (
+                <>
+                  {story.mini ? (
+                    <img
+                      src={story.mini}
+                      alt=""
+                      className="absolute right-3 top-3 h-7 w-7 rounded-full border-2 border-white object-cover"
+                    />
+                  ) : null}
+                  <p className="absolute bottom-[10px] left-0 right-0 px-3 text-center text-[12px] font-medium leading-[19px] text-white">
+                    {story.name}
+                  </p>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="absolute right-[-5px] top-1/2 -translate-y-1/2">
+          <button
+            type="button"
+            className={clsx(
+              "grid h-6 w-6 place-items-center rounded-full border text-white",
+              isDark ? "border-[#111f34] bg-[#1890ff]" : "border-white bg-[#1890ff]",
             )}
-          </div>
-        ))}
+          >
+            <RightChevronIcon className="h-[13px] w-[13px]" />
+          </button>
+        </div>
       </div>
-      <button
-        type="button"
-        className={clsx(
-          "absolute right-0 top-1/2 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full border text-white shadow-[0_12px_30px_rgba(17,32,50,0.2)] md:grid",
-          isDark ? "border-white/10 bg-[#1890ff]" : "border-white bg-[#1890ff]",
-        )}
-      >
-        <RightChevronIcon className="h-4 w-4" />
-      </button>
-    </div>
+
+      <div className="lg:hidden">
+        <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {mobileStories.map((story) => (
+            <div key={story.name + story.image} className="min-w-[60px] text-center">
+              <div
+                className={clsx(
+                  "relative mx-auto h-[60px] w-[60px] overflow-hidden rounded-full p-[2px]",
+                  story.isMine ? "bg-transparent" : story.image.includes("img1") ? "bg-[#1890ff]" : "bg-[#c4c4c4]",
+                )}
+              >
+                <img src={story.image} alt={story.name} className="h-full w-full rounded-full object-cover" />
+                {story.isMine ? (
+                  <button
+                    type="button"
+                    className="absolute bottom-0 right-0 grid h-5 w-5 place-items-center rounded-full border border-white bg-[#1890ff] text-[12px] text-white"
+                  >
+                    +
+                  </button>
+                ) : null}
+              </div>
+              <p className={clsx("mt-2 text-[12px] font-medium", isDark ? "text-white/75" : "text-[#112032]")}>{story.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -398,12 +433,12 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
   );
 
   return (
-    <aside className="hidden xl:block">
+    <aside className="hidden lg:block">
       <div className="space-y-4">
-        <SidebarCard isDark={isDark} className="p-7">
+        <SidebarCard isDark={isDark} className="p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Your Friends</h2>
-            <button type="button" className="text-sm font-semibold text-[#1890ff]">
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
               See All
             </button>
           </div>
@@ -411,30 +446,37 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
             <SearchField
               isDark={isDark}
               placeholder="input search text"
+              variant="compact"
               value={friendSearch}
               onChange={(event) => setFriendSearch(event.target.value)}
             />
           </div>
-          <div className="mt-6 space-y-5">
+          <div className="mt-6 space-y-3">
             {filteredFriends.map((friend) => (
-              <div key={friend.name + friend.time} className="flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-3">
-                  <img src={friend.image} alt={friend.name} className="h-11 w-11 rounded-full object-cover" />
+              <div
+                key={friend.name + friend.time}
+                className={clsx(
+                  "flex items-center justify-between gap-3 rounded-[8px] p-[6px] transition",
+                  isDark ? "hover:bg-white/6" : "hover:bg-[#e4e6e9]",
+                )}
+              >
+                <div className="flex min-w-0 items-center gap-4">
+                  <img src={friend.image} alt={friend.name} className="h-10 w-10 rounded-full object-cover" />
                   <div className="min-w-0">
-                    <p className={clsx("truncate text-[15px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>{friend.name}</p>
-                    <p className={clsx("truncate text-[13px]", isDark ? "text-white/58" : "text-black/50")}>{friend.title}</p>
+                    <p className={clsx("truncate text-[14px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>{friend.name}</p>
+                    <p className={clsx("truncate text-[11px] leading-[1.4]", isDark ? "text-white/58" : "text-[#212121]")}>{friend.title}</p>
                   </div>
                 </div>
-                <span className={clsx("shrink-0 text-[13px]", isDark ? "text-white/46" : "text-black/42")}>{friend.time}</span>
+                <span className={clsx("shrink-0 text-[11px] leading-[21px]", isDark ? "text-white/46" : "text-black/46")}>{friend.time}</span>
               </div>
             ))}
           </div>
         </SidebarCard>
 
-        <SidebarCard isDark={isDark} className="p-7">
+        <SidebarCard isDark={isDark} className="p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>You Might Like</h2>
-            <button type="button" className="text-sm font-semibold text-[#1890ff]">
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
               See All
             </button>
           </div>
@@ -444,7 +486,7 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
                 <div className={clsx("flex items-center gap-4 border-b pb-5", isDark ? "border-white/8" : "border-black/6")}>
                   <img src={person.image} alt={person.name} className="h-14 w-14 rounded-full object-cover" />
                   <div className="min-w-0">
-                    <p className={clsx("truncate text-[16px] font-medium", isDark ? "text-white" : "text-[#112032]")}>{person.name}</p>
+                    <p className={clsx("truncate text-[16px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>{person.name}</p>
                     <p className={clsx("truncate text-[14px]", isDark ? "text-white/58" : "text-black/48")}>{person.title}</p>
                   </div>
                 </div>
@@ -457,10 +499,10 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
           </div>
         </SidebarCard>
 
-        <SidebarCard isDark={isDark} className="p-7">
+        <SidebarCard isDark={isDark} className="p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Events</h2>
-            <button type="button" className="text-sm font-semibold text-[#1890ff]">
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
               See all
             </button>
           </div>
@@ -469,7 +511,7 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
               <div
                 key={event.title + index}
                 className={clsx(
-                  "overflow-hidden rounded-[10px] border shadow-[0_14px_34px_rgba(17,32,50,0.08)]",
+                  "overflow-hidden rounded-[6px] border shadow-[0_4px_8px_rgba(0,0,0,0.08)]",
                   isDark ? "border-white/8 bg-[#13253a] shadow-none" : "border-black/5 bg-white",
                 )}
               >
@@ -481,14 +523,16 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
                   </div>
                   <p className={clsx("text-[16px] font-medium leading-6", isDark ? "text-white" : "text-black")}>{event.title}</p>
                 </div>
-                <div className="flex items-center justify-between px-4 pb-4">
-                  <span className={clsx("text-[12px] font-medium", isDark ? "text-white/45" : "text-black/35")}>17 People Going</span>
-                  <button
-                    type="button"
-                    className="inline-flex h-8 items-center justify-center rounded-[2px] border border-[#1890ff] bg-[#f3f9ff] px-7 text-[12px] font-medium text-[#1890ff]"
-                  >
-                    Going
-                  </button>
+                <div className={clsx("mx-4 border-t pb-3 pt-3", isDark ? "border-white/8" : "border-[#dfdfdf]")}>
+                  <div className="flex items-center justify-between">
+                    <span className={clsx("text-[12px] font-medium", isDark ? "text-white/45" : "text-black/35")}>17 People Going</span>
+                    <button
+                      type="button"
+                      className="inline-flex h-8 items-center justify-center rounded-[2px] border border-[#1890ff] bg-[#f3f9ff] px-7 text-[12px] font-medium text-[#1890ff]"
+                    >
+                      Going
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -509,7 +553,7 @@ function SidebarCard({
   isDark: boolean;
 }) {
   return (
-    <div className={clsx("rounded-[14px]", className, isDark ? "bg-[#15243a]" : "bg-white")}>
+    <div className={clsx("rounded-[6px]", className, isDark ? "bg-[#15243a]" : "bg-white")}>
       {children}
     </div>
   );
@@ -520,17 +564,25 @@ function SearchField({
   placeholder,
   value,
   onChange,
+  variant = "compact",
 }: {
   isDark: boolean;
   placeholder: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  variant?: "compact" | "navbar";
 }) {
   return (
     <label
       className={clsx(
-        "flex h-14 items-center gap-3 rounded-full px-6",
-        isDark ? "bg-[#26344c]" : "bg-[#f3f3f3]",
+        "flex h-10 items-center gap-3 rounded-full border px-[18px] transition",
+        variant === "navbar"
+          ? isDark
+            ? "border-[#26344c] bg-[#26344c]"
+            : "border-[#f5f5f5] bg-[#f5f5f5]"
+          : isDark
+            ? "border-[#26344c] bg-[#26344c]"
+            : "border-[#f5f5f5] bg-[#f5f5f5]",
       )}
     >
       <SearchIcon className={isDark ? "text-[#1890ff]" : "text-black/45"} />
@@ -539,8 +591,8 @@ function SearchField({
         onChange={onChange}
         placeholder={placeholder}
         className={clsx(
-          "w-full bg-transparent text-[16px] outline-none placeholder:text-current/75",
-          isDark ? "text-white/82" : "text-black/52",
+          "w-full bg-transparent text-[16px] leading-[1.4] outline-none",
+          isDark ? "text-white/82 placeholder:text-white/32" : "text-black/52 placeholder:text-black/25",
         )}
       />
     </label>
