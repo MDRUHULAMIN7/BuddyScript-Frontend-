@@ -7,6 +7,7 @@ import { useToggleReactionMutation } from "@/features/reactions/hooks";
 import { getErrorMessage } from "@/lib/api/error";
 import type { CommentItem, FeedPost } from "@/lib/types/common";
 import { getAssetUrl, getFullName, getRelativeTimeLabel } from "@/lib/utils/format";
+import { InfiniteScrollSentinel } from "@/components/shared/InfiniteScrollSentinel";
 import { useFeedTheme } from "./FeedThemeContext";
 import { LikersModal } from "./LikersModal";
 
@@ -65,13 +66,13 @@ export function CommentSection({ post }: CommentSectionProps) {
       <div className="mt-5">
         {commentsQuery.hasNextPage ? (
           <div className="mb-5">
-            <button
-              type="button"
-              className={clsx("text-sm font-semibold transition hover:text-[#1890ff]", isDark ? "text-white/70" : "text-black/55")}
-              onClick={() => void commentsQuery.fetchNextPage()}
-            >
-              {commentsQuery.isFetchingNextPage ? "Loading..." : `View ${post.commentCount} previous comments`}
-            </button>
+            <p className={clsx("text-sm font-semibold", isDark ? "text-white/70" : "text-black/55")}>
+              {commentsQuery.isFetchingNextPage
+                ? "Loading older comments..."
+                : comments.length > 0
+                  ? "Scroll to load previous comments"
+                  : "Loading comments..."}
+            </p>
           </div>
         ) : null}
 
@@ -80,6 +81,18 @@ export function CommentSection({ post }: CommentSectionProps) {
             <CommentCard key={comment._id} comment={comment} postId={post._id} />
           ))}
         </div>
+
+        {commentsQuery.hasNextPage ? (
+          <div className="mt-5">
+            <InfiniteScrollSentinel
+              canLoadMore={Boolean(commentsQuery.hasNextPage)}
+              isLoading={commentsQuery.isFetchingNextPage}
+              onLoadMore={() => {
+                void commentsQuery.fetchNextPage();
+              }}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -223,13 +236,18 @@ function CommentCard({ comment, postId }: { comment: CommentItem; postId: string
             ))}
 
             {repliesQuery.hasNextPage ? (
-              <button
-                type="button"
-                className={clsx("text-sm font-semibold transition hover:text-[#1890ff]", isDark ? "text-white/70" : "text-black/55")}
-                onClick={() => void repliesQuery.fetchNextPage()}
-              >
-                {repliesQuery.isFetchingNextPage ? "Loading..." : "View more replies"}
-              </button>
+              <div className="pt-1">
+                <p className={clsx("mb-3 text-sm font-semibold", isDark ? "text-white/70" : "text-black/55")}>
+                  {repliesQuery.isFetchingNextPage ? "Loading more replies..." : "Scroll to load more replies"}
+                </p>
+                <InfiniteScrollSentinel
+                  canLoadMore={Boolean(repliesQuery.hasNextPage)}
+                  isLoading={repliesQuery.isFetchingNextPage}
+                  onLoadMore={() => {
+                    void repliesQuery.fetchNextPage();
+                  }}
+                />
+              </div>
             ) : null}
           </div>
         ) : null}

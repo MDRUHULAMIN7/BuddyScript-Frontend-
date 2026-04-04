@@ -87,6 +87,12 @@ const mightLikePeople: PersonCard[] = [
   { name: "Radovan SkillArena", title: "Founder & CEO at Trophy", image: "/assets/images/people3.png" },
 ];
 
+const suggestedPeople: PersonCard[] = [
+  { name: "Steve Jobs", title: "CEO of Apple", image: "/assets/images/people1.png" },
+  { name: "Ryan Roslansky", title: "CEO of Linkedin", image: "/assets/images/people2.png" },
+  { name: "Dylan Field", title: "CEO of Figma", image: "/assets/images/people3.png" },
+];
+
 const eventCards = [
   { date: "10", month: "Jul", title: "No more terrorism no more cry", image: "/assets/images/feed_event1.png" },
   { date: "10", month: "Jul", title: "No more terrorism no more cry", image: "/assets/images/feed_event1.png" },
@@ -317,33 +323,125 @@ function MobileHeader({
 function LeftSidebar({ isDark }: { isDark: boolean }) {
   return (
     <aside className="hidden lg:block">
-      <SidebarCard isDark={isDark} className="p-6">
-        <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Explore</h2>
-        <div className="mt-6 space-y-6">
-          {exploreItems.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              className={clsx(
-                "flex w-full items-center justify-between gap-4 text-left transition",
-                isDark ? "text-white/76 hover:text-[#1890ff]" : "text-[#5b6270] hover:text-[#1890ff]",
-              )}
-            >
-              <span className="flex items-center gap-4">
-                <span className="grid h-6 w-6 place-items-center">
-                  <item.icon className={isDark ? "text-white/55" : "text-[#7a808d]"} />
+      <div className="space-y-4">
+        <SidebarCard isDark={isDark} className="p-6">
+          <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Explore</h2>
+          <div className="mt-6 space-y-6">
+            {exploreItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                className={clsx(
+                  "flex w-full items-center justify-between gap-4 text-left transition",
+                  isDark ? "text-white/76 hover:text-[#1890ff]" : "text-[#5b6270] hover:text-[#1890ff]",
+                )}
+              >
+                <span className="flex items-center gap-4">
+                  <span className="grid h-6 w-6 place-items-center">
+                    <item.icon className={isDark ? "text-white/55" : "text-[#7a808d]"} />
+                  </span>
+                  <span className="text-[16px] font-medium">{item.label}</span>
                 </span>
-                <span className="text-[16px] font-medium">{item.label}</span>
-              </span>
-              {item.badge ? (
-                <span className="rounded-full bg-[#10dd88] px-2 py-1 text-[12px] font-semibold leading-none text-white">
-                  {item.badge}
-                </span>
-              ) : null}
+                {item.badge ? (
+                  <span className="rounded-full bg-[#10dd88] px-2 py-1 text-[12px] font-semibold leading-none text-white">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </button>
+            ))}
+          </div>
+        </SidebarCard>
+
+        <SidebarCard isDark={isDark} className="p-6">
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <h2 className={clsx("text-[20px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>
+              Suggested People
+            </h2>
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
+              See All
             </button>
-          ))}
-        </div>
-      </SidebarCard>
+          </div>
+          <div className="space-y-6">
+            {suggestedPeople.map((person, index) => (
+              <div key={person.name} className={clsx(index === suggestedPeople.length - 1 ? "" : "")}>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 flex-1 items-center gap-4">
+                    <img
+                      src={person.image}
+                      alt={person.name}
+                      className={clsx(
+                        "shrink-0 rounded-full object-cover",
+                        index === 0 ? "h-10 w-10" : "h-[37px] w-[37px]",
+                      )}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className={clsx("truncate text-[14px] font-medium leading-[1.1]", isDark ? "text-white" : "text-[#212121]")}>
+                        {person.name}
+                      </p>
+                      <p className={clsx("truncate text-[11px] font-light leading-[1.4]", isDark ? "text-white/58" : "text-[#212121]")}>
+                        {person.title}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className={clsx(
+                      "inline-flex h-[30px] items-center justify-center rounded-[2px] border px-[7px] text-[12px] font-medium leading-[1.4] transition",
+                      isDark
+                        ? "border-white/10 bg-transparent text-white/68 hover:border-[#1890ff] hover:bg-[#1890ff] hover:text-white"
+                        : "border-[#dcdfe4] bg-white text-[#959eae] hover:border-[#1890ff] hover:bg-[#1890ff] hover:text-white",
+                    )}
+                  >
+                    Connect
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </SidebarCard>
+
+        <SidebarCard isDark={isDark} className="p-6">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className={clsx("text-[20px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>Events</h2>
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
+              See all
+            </button>
+          </div>
+          <div className="mt-6 space-y-4">
+            {eventCards.map((event, index) => (
+              <div
+                key={event.title + index}
+                className={clsx(
+                  "overflow-hidden rounded-[6px] border shadow-[0_4px_8px_rgba(0,0,0,0.08)]",
+                  isDark ? "border-white/8 bg-[#13253a] shadow-none" : "border-black/5 bg-white",
+                )}
+              >
+                <img src={event.image} alt={event.title} className="h-[188px] w-full object-cover" />
+                <div className="flex items-center gap-3 px-4 pb-4 pt-5">
+                  <div className="rounded-[2px] bg-[#0acf83] px-3 py-2 text-center text-white">
+                    <p className="text-[18px] font-bold leading-none">{event.date}</p>
+                    <p className="text-[18px] font-normal leading-none">{event.month}</p>
+                  </div>
+                  <p className={clsx("text-[16px] font-medium leading-[1.4]", isDark ? "text-white" : "text-black")}>
+                    {event.title}
+                  </p>
+                </div>
+                <div className={clsx("mx-4 border-t pb-3 pt-3", isDark ? "border-white/8" : "border-[#dfdfdf]")}>
+                  <div className="flex items-center justify-between">
+                    <span className={clsx("text-[12px] font-medium", isDark ? "text-white/45" : "text-black/35")}>17 People Going</span>
+                    <button
+                      type="button"
+                      className="inline-flex h-8 items-center justify-center rounded-[2px] border border-[#1890ff] bg-[#f3f9ff] px-7 text-[12px] font-medium text-[#1890ff]"
+                    >
+                      Going
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </SidebarCard>
+      </div>
     </aside>
   );
 }
@@ -437,6 +535,32 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
       <div className="space-y-4">
         <SidebarCard isDark={isDark} className="p-6">
           <div className="flex items-center justify-between gap-3">
+            <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>You Might Like</h2>
+            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
+              See All
+            </button>
+          </div>
+          <div className="mt-5 space-y-5">
+            {mightLikePeople.map((person) => (
+              <div key={person.name}>
+                <div className={clsx("flex items-center gap-4 border-b pb-5", isDark ? "border-white/8" : "border-black/6")}>
+                  <img src={person.image} alt={person.name} className="h-14 w-14 rounded-full object-cover" />
+                  <div className="min-w-0">
+                    <p className={clsx("truncate text-[16px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>{person.name}</p>
+                    <p className={clsx("truncate text-[14px]", isDark ? "text-white/58" : "text-black/48")}>{person.title}</p>
+                  </div>
+                </div>
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <PillButton label="Ignore" isPrimary={false} isDark={isDark} />
+                  <PillButton label="Follow" isPrimary isDark={isDark} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </SidebarCard>
+
+        <SidebarCard isDark={isDark} className="p-6">
+          <div className="flex items-center justify-between gap-3">
             <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Your Friends</h2>
             <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
               See All
@@ -468,72 +592,6 @@ function RightSidebar({ isDark }: { isDark: boolean }) {
                   </div>
                 </div>
                 <span className={clsx("shrink-0 text-[11px] leading-[21px]", isDark ? "text-white/46" : "text-black/46")}>{friend.time}</span>
-              </div>
-            ))}
-          </div>
-        </SidebarCard>
-
-        <SidebarCard isDark={isDark} className="p-6">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>You Might Like</h2>
-            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
-              See All
-            </button>
-          </div>
-          <div className="mt-5 space-y-5">
-            {mightLikePeople.map((person) => (
-              <div key={person.name}>
-                <div className={clsx("flex items-center gap-4 border-b pb-5", isDark ? "border-white/8" : "border-black/6")}>
-                  <img src={person.image} alt={person.name} className="h-14 w-14 rounded-full object-cover" />
-                  <div className="min-w-0">
-                    <p className={clsx("truncate text-[16px] font-medium leading-[1.4]", isDark ? "text-white" : "text-[#212121]")}>{person.name}</p>
-                    <p className={clsx("truncate text-[14px]", isDark ? "text-white/58" : "text-black/48")}>{person.title}</p>
-                  </div>
-                </div>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <PillButton label="Ignore" isPrimary={false} isDark={isDark} />
-                  <PillButton label="Follow" isPrimary isDark={isDark} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </SidebarCard>
-
-        <SidebarCard isDark={isDark} className="p-6">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className={clsx("text-[18px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>Events</h2>
-            <button type="button" className="text-[12px] font-medium leading-[18px] text-[#1890ff]">
-              See all
-            </button>
-          </div>
-          <div className="mt-6 space-y-4">
-            {eventCards.map((event, index) => (
-              <div
-                key={event.title + index}
-                className={clsx(
-                  "overflow-hidden rounded-[6px] border shadow-[0_4px_8px_rgba(0,0,0,0.08)]",
-                  isDark ? "border-white/8 bg-[#13253a] shadow-none" : "border-black/5 bg-white",
-                )}
-              >
-                <img src={event.image} alt={event.title} className="h-[188px] w-full object-cover" />
-                <div className="flex items-center gap-3 px-4 pb-4 pt-5">
-                  <div className="rounded-[3px] bg-[#10dd88] px-3 py-2 text-center text-white">
-                    <p className="text-[18px] font-bold leading-none">{event.date}</p>
-                    <p className="text-[18px] leading-none">{event.month}</p>
-                  </div>
-                  <p className={clsx("text-[16px] font-medium leading-6", isDark ? "text-white" : "text-black")}>{event.title}</p>
-                </div>
-                <div className={clsx("mx-4 border-t pb-3 pt-3", isDark ? "border-white/8" : "border-[#dfdfdf]")}>
-                  <div className="flex items-center justify-between">
-                    <span className={clsx("text-[12px] font-medium", isDark ? "text-white/45" : "text-black/35")}>17 People Going</span>
-                    <button
-                      type="button"
-                      className="inline-flex h-8 items-center justify-center rounded-[2px] border border-[#1890ff] bg-[#f3f9ff] px-7 text-[12px] font-medium text-[#1890ff]"
-                    >
-                      Going
-                    </button>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
