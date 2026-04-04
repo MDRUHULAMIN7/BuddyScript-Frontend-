@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { clsx } from "clsx";
 import { useToggleReactionMutation } from "@/features/reactions/hooks";
 import type { FeedPost } from "@/lib/types/common";
 import { getAssetUrl, getFullName, getRelativeTimeLabel } from "@/lib/utils/format";
 import { CommentSection } from "./CommentSection";
+import { useFeedTheme } from "./FeedThemeContext";
 import { LikersModal } from "./LikersModal";
 
 type PostCardProps = {
@@ -12,6 +14,7 @@ type PostCardProps = {
 };
 
 export function PostCard({ post }: PostCardProps) {
+  const { isDark } = useFeedTheme();
   const [showMenu, setShowMenu] = useState(false);
   const [showLikers, setShowLikers] = useState(false);
   const [showComments, setShowComments] = useState(true);
@@ -19,167 +22,197 @@ export function PostCard({ post }: PostCardProps) {
   const reactionDisplayCount = post.reactionCount > 9 ? "9+" : String(post.reactionCount);
 
   return (
-    <div className="_feed_inner_timeline_post_area _b_radious6 _padd_b24 _padd_t24 _mar_b16">
-      <div className="_feed_inner_timeline_content _padd_r24 _padd_l24">
-        <div className="_feed_inner_timeline_post_top">
-          <div className="_feed_inner_timeline_post_box">
-            <div className="_feed_inner_timeline_post_box_image">
-              <img
-                src={getAssetUrl(post.author.profilePicture || "/assets/images/post_img.png")}
-                alt={getFullName(post.author.firstName, post.author.lastName)}
-                className="_post_img"
-              />
-            </div>
-            <div className="_feed_inner_timeline_post_box_txt">
-              <h4 className="_feed_inner_timeline_post_box_title">
+    <article
+      className={clsx(
+        "mb-4 overflow-hidden rounded-[26px] border shadow-[0_24px_70px_rgba(17,32,50,0.06)]",
+        isDark ? "border-white/10 bg-[#15243a] shadow-none" : "border-black/6 bg-white",
+      )}
+    >
+      <div className="px-5 pb-5 pt-5 md:px-6">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <img
+              src={getAssetUrl(post.author.profilePicture || "/assets/images/post_img.png")}
+              alt={getFullName(post.author.firstName, post.author.lastName)}
+              className="h-12 w-12 shrink-0 rounded-full object-cover"
+            />
+            <div className="min-w-0">
+              <h3 className={clsx("truncate text-[15px] font-semibold", isDark ? "text-white" : "text-[#112032]")}>
                 {getFullName(post.author.firstName, post.author.lastName)}
-              </h4>
-              <p className="_feed_inner_timeline_post_box_para">
+              </h3>
+              <p className={clsx("mt-1 text-sm", isDark ? "text-white/58" : "text-black/45")}>
                 {getRelativeTimeLabel(post.createdAt)} .{" "}
-                <a href="#0">{post.visibility === "public" ? "Public" : "Private"}</a>
+                <span className="font-medium text-[#1890ff]">
+                  {post.visibility === "public" ? "Public" : "Private"}
+                </span>
               </p>
             </div>
           </div>
-          <div className="_feed_inner_timeline_post_box_dropdown">
-            <div className="_feed_timeline_post_dropdown">
-              <button
-                type="button"
-                className="_feed_timeline_post_dropdown_link"
-                onClick={() => setShowMenu((value) => !value)}
+
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              className={clsx(
+                "grid h-10 w-10 place-items-center rounded-full transition",
+                isDark ? "hover:bg-white/8" : "hover:bg-[#f2f5fb]",
+              )}
+              onClick={() => setShowMenu((value) => !value)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="4" height="17" fill="none" viewBox="0 0 4 17">
+                <circle cx="2" cy="2" r="2" fill="#C4C4C4" />
+                <circle cx="2" cy="8" r="2" fill="#C4C4C4" />
+                <circle cx="2" cy="15" r="2" fill="#C4C4C4" />
+              </svg>
+            </button>
+
+            {showMenu ? (
+              <div
+                className={clsx(
+                  "absolute right-0 top-12 z-20 w-[270px] rounded-[22px] border p-3 shadow-[0_24px_70px_rgba(17,32,50,0.15)]",
+                  isDark ? "border-white/10 bg-[#102036]" : "border-black/6 bg-white",
+                )}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="17" fill="none" viewBox="0 0 4 17">
-                  <circle cx="2" cy="2" r="2" fill="#C4C4C4" />
-                  <circle cx="2" cy="8" r="2" fill="#C4C4C4" />
-                  <circle cx="2" cy="15" r="2" fill="#C4C4C4" />
-                </svg>
-              </button>
-            </div>
-            <div className={`_feed_timeline_dropdown _timeline_dropdown${showMenu ? " show" : ""}`}>
-              <ul className="_feed_timeline_dropdown_list">
-                <li className="_feed_timeline_dropdown_item">
-                  <button type="button" className="_feed_timeline_dropdown_link buddy-reset-button">
-                    <span>
-                      <PostMenuSaveIcon />
-                    </span>
-                    Save Post
-                  </button>
-                </li>
-                <li className="_feed_timeline_dropdown_item">
-                  <button type="button" className="_feed_timeline_dropdown_link buddy-reset-button">
-                    <span>
-                      <PostMenuNotificationIcon />
-                    </span>
-                    Turn On Notification
-                  </button>
-                </li>
-                <li className="_feed_timeline_dropdown_item">
-                  <button type="button" className="_feed_timeline_dropdown_link buddy-reset-button">
-                    <span>
-                      <PostMenuHideIcon />
-                    </span>
-                    Hide
-                  </button>
-                </li>
-                <li className="_feed_timeline_dropdown_item">
-                  <button type="button" className="_feed_timeline_dropdown_link buddy-reset-button">
-                    <span>
-                      <PostMenuEditIcon />
-                    </span>
-                    Edit Post
-                  </button>
-                </li>
-                <li className="_feed_timeline_dropdown_item">
-                  <button type="button" className="_feed_timeline_dropdown_link buddy-reset-button">
-                    <span>
-                      <PostMenuDeleteIcon />
-                    </span>
-                    Delete Post
-                  </button>
-                </li>
-              </ul>
-            </div>
+                <div className="space-y-1">
+                  <MenuAction label="Save Post" icon={<PostMenuSaveIcon />} isDark={isDark} />
+                  <MenuAction label="Turn On Notification" icon={<PostMenuNotificationIcon />} isDark={isDark} />
+                  <MenuAction label="Hide" icon={<PostMenuHideIcon />} isDark={isDark} />
+                  <MenuAction label="Edit Post" icon={<PostMenuEditIcon />} isDark={isDark} />
+                  <MenuAction label="Delete Post" icon={<PostMenuDeleteIcon />} isDark={isDark} />
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 
-        {post.text ? <h4 className="_feed_inner_timeline_post_title">{post.text}</h4> : null}
+        {post.text ? (
+          <p
+            className={clsx(
+              "mt-5 whitespace-pre-wrap text-[15px] leading-7",
+              isDark ? "text-white/80" : "text-[#313846]",
+            )}
+          >
+            {post.text}
+          </p>
+        ) : null}
+
         {post.imageUrl ? (
-          <div className="_feed_inner_timeline_image">
-            <img src={getAssetUrl(post.imageUrl)} alt="Post" className="_time_img" />
+          <div className="mt-5 overflow-hidden rounded-[22px]">
+            <img src={getAssetUrl(post.imageUrl)} alt="Post" className="h-auto w-full object-cover" />
           </div>
         ) : null}
       </div>
 
-      <div className="_feed_inner_timeline_total_reacts _padd_r24 _padd_l24 _mar_b26">
-        <div className="_feed_inner_timeline_total_reacts_image">
-          <img src="/assets/images/react_img1.png" alt="Reaction" className="_react_img1" />
-          <img src="/assets/images/react_img2.png" alt="Reaction" className="_react_img" />
-          <img src="/assets/images/react_img3.png" alt="Reaction" className="_react_img _rect_img_mbl_none" />
-          <img src="/assets/images/react_img4.png" alt="Reaction" className="_react_img _rect_img_mbl_none" />
-          <img src="/assets/images/react_img5.png" alt="Reaction" className="_react_img _rect_img_mbl_none" />
-          <p className="_feed_inner_timeline_total_reacts_para">
-            <button
-              type="button"
-              className="buddy-reset-button buddy-total-reactions-button"
-              onClick={() => setShowLikers(true)}
-            >
-              {reactionDisplayCount}
-            </button>
-          </p>
-        </div>
-        <div className="_feed_inner_timeline_total_reacts_txt">
-          <p className="_feed_inner_timeline_total_reacts_para1">
-            <button
-              type="button"
-              className="buddy-reset-button"
-              onClick={() => setShowComments((value) => !value)}
-            >
-              <span>{post.commentCount}</span> Comment
-            </button>
-          </p>
-          <p className="_feed_inner_timeline_total_reacts_para2">
-            <span>0</span> Share
-          </p>
+      <div
+        className={clsx(
+          "flex flex-col gap-3 border-t px-5 py-4 md:flex-row md:items-center md:justify-between md:px-6",
+          isDark ? "border-white/10" : "border-black/6",
+        )}
+      >
+        <button type="button" className="flex items-center gap-2 text-sm font-medium text-[#1890ff]" onClick={() => setShowLikers(true)}>
+          <div className="flex items-center">
+            {["react_img1.png", "react_img2.png", "react_img3.png", "react_img4.png", "react_img5.png"].map((image, index) => (
+              <img
+                key={image}
+                src={`/assets/images/${image}`}
+                alt="Reaction"
+                className={clsx("h-8 w-8 rounded-full border-2 object-cover", index === 0 ? "ml-0" : "-ml-3")}
+                style={{ borderColor: isDark ? "#15243a" : "#ffffff" }}
+              />
+            ))}
+          </div>
+          <span>{reactionDisplayCount}</span>
+        </button>
+
+        <div className={clsx("flex items-center gap-4 text-sm", isDark ? "text-white/58" : "text-black/46")}>
+          <button type="button" className="transition hover:text-[#1890ff]" onClick={() => setShowComments((value) => !value)}>
+            <span className="font-semibold text-[#1890ff]">{post.commentCount}</span> Comment
+          </button>
+          <span>
+            <span className="font-semibold text-[#1890ff]">0</span> Share
+          </span>
         </div>
       </div>
 
-      <div className="_feed_inner_timeline_reaction">
-        <button
-          type="button"
-          className={`_feed_inner_timeline_reaction_emoji _feed_reaction${post.likedByMe ? " _feed_reaction_active" : ""}`}
+      <div
+        className={clsx(
+          "grid grid-cols-3 gap-2 px-3 py-3",
+          isDark ? "bg-[#112033]" : "bg-[#fbfcfd]",
+        )}
+      >
+        <ReactionButton
+          active={post.likedByMe}
+          label={toggleReactionMutation.isPending ? "Updating..." : post.likedByMe ? "Haha" : "Like"}
+          icon={<PostReactionHahaIcon />}
+          isDark={isDark}
           onClick={() => toggleReactionMutation.mutate(post.likedByMe)}
-        >
-          <span className="_feed_inner_timeline_reaction_link">
-            <span className="buddy-reaction-label">
-              <PostReactionHahaIcon />
-              {toggleReactionMutation.isPending ? "Updating..." : post.likedByMe ? "Haha" : "Like"}
-            </span>
-          </span>
-        </button>
-        <button
-          type="button"
-          className="_feed_inner_timeline_reaction_comment _feed_reaction"
+        />
+        <ReactionButton
+          label="Comment"
+          icon={<PostReactionCommentIcon />}
+          isDark={isDark}
           onClick={() => setShowComments((value) => !value)}
-        >
-          <span className="_feed_inner_timeline_reaction_link">
-            <span className="buddy-reaction-label">
-              <PostReactionCommentIcon />
-              Comment
-            </span>
-          </span>
-        </button>
-        <button type="button" className="_feed_inner_timeline_reaction_share _feed_reaction">
-          <span className="_feed_inner_timeline_reaction_link">
-            <span className="buddy-reaction-label">
-              <PostReactionShareIcon />
-              Share
-            </span>
-          </span>
-        </button>
+        />
+        <ReactionButton label="Share" icon={<PostReactionShareIcon />} isDark={isDark} />
       </div>
 
       {showComments ? <CommentSection post={post} /> : null}
       <LikersModal open={showLikers} targetId={post._id} targetType="post" onClose={() => setShowLikers(false)} />
-    </div>
+    </article>
+  );
+}
+
+function MenuAction({
+  label,
+  icon,
+  isDark,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  isDark: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      className={clsx(
+        "flex w-full items-center gap-3 rounded-[16px] px-3 py-3 text-left text-[15px] font-medium transition",
+        isDark ? "text-white/78 hover:bg-white/7" : "text-[#112032] hover:bg-[#f5f8ff]",
+      )}
+    >
+      <span className="grid h-10 w-10 place-items-center rounded-full bg-[#f4f7ff]">{icon}</span>
+      <span>{label}</span>
+    </button>
+  );
+}
+
+function ReactionButton({
+  label,
+  icon,
+  isDark,
+  active = false,
+  onClick,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  isDark: boolean;
+  active?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={clsx(
+        "inline-flex h-12 items-center justify-center gap-2 rounded-[16px] px-3 text-sm font-medium transition",
+        active
+          ? "bg-[#e4f1fd] text-[#112032]"
+          : isDark
+            ? "text-white/78 hover:bg-white/7"
+            : "text-[#112032] hover:bg-[#e4f1fd]",
+      )}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
   );
 }
 
@@ -202,17 +235,17 @@ function PostReactionHahaIcon() {
 
 function PostReactionCommentIcon() {
   return (
-    <svg className="_reaction_svg" xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
-      <path stroke="#000" d="M1 10.5c0-.464 0-.696.009-.893A9 9 0 019.607 1.01C9.804 1 10.036 1 10.5 1s.696 0 .893.009a9 9 0 018.598 8.598c.009.197.009.429.009.893v6.046c0 1.36 0 2.041-.317 2.535a2 2 0 01-.602.602c-.494.317-1.174.317-2.535.317H10.5c-.464 0-.696 0-.893-.009a9 9 0 01-8.598-8.598C1 11.196 1 10.964 1 10.5z" />
-      <path stroke="#000" strokeLinecap="round" strokeLinejoin="round" d="M6.938 9.313h7.125M10.5 14.063h3.563" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
+      <path stroke="currentColor" d="M1 10.5c0-.464 0-.696.009-.893A9 9 0 019.607 1.01C9.804 1 10.036 1 10.5 1s.696 0 .893.009a9 9 0 018.598 8.598c.009.197.009.429.009.893v6.046c0 1.36 0 2.041-.317 2.535a2 2 0 01-.602.602c-.494.317-1.174.317-2.535.317H10.5c-.464 0-.696 0-.893-.009a9 9 0 01-8.598-8.598C1 11.196 1 10.964 1 10.5z" />
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M6.938 9.313h7.125M10.5 14.063h3.563" />
     </svg>
   );
 }
 
 function PostReactionShareIcon() {
   return (
-    <svg className="_reaction_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="21" fill="none" viewBox="0 0 24 21">
-      <path stroke="#000" strokeLinejoin="round" d="M23 10.5L12.917 1v5.429C3.267 6.429 1 13.258 1 20c2.785-3.52 5.248-5.429 11.917-5.429V20L23 10.5z" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" fill="none" viewBox="0 0 24 21">
+      <path stroke="currentColor" strokeLinejoin="round" d="M23 10.5L12.917 1v5.429C3.267 6.429 1 13.258 1 20c2.785-3.52 5.248-5.429 11.917-5.429V20L23 10.5z" />
     </svg>
   );
 }

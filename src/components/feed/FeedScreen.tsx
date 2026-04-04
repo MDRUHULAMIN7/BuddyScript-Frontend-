@@ -8,6 +8,7 @@ import type { AppTheme } from "@/lib/constants/theme";
 import { THEME_COOKIE_NAME } from "@/lib/constants/theme";
 import { useCurrentUser, useLogoutMutation } from "@/features/auth/hooks";
 import { FeedChrome } from "./FeedChrome";
+import { FeedThemeProvider } from "./FeedThemeContext";
 import { CreatePostComposer } from "./CreatePostComposer";
 import { FeedList } from "./FeedList";
 
@@ -43,18 +44,20 @@ export function FeedScreen({ initialUser, initialTheme }: FeedScreenProps) {
   };
 
   return (
-    <FeedChrome
-      currentUser={currentUser}
-      isDark={isDark}
-      showNotifications={showNotifications}
-      showProfileMenu={showProfileMenu}
-      onToggleDark={handleToggleDark}
-      onToggleNotifications={() => setShowNotifications((value) => !value)}
-      onToggleProfile={() => setShowProfileMenu((value) => !value)}
-      onLogout={handleLogout}
-    >
-      <CreatePostComposer currentUser={currentUser} />
-      <FeedList />
-    </FeedChrome>
+    <FeedThemeProvider isDark={isDark}>
+      <FeedChrome
+        currentUser={currentUser}
+        isDark={isDark}
+        showNotifications={showNotifications}
+        showProfileMenu={showProfileMenu}
+        onToggleDark={handleToggleDark}
+        onToggleNotifications={() => setShowNotifications((value) => !value)}
+        onToggleProfile={() => setShowProfileMenu((value) => !value)}
+        onLogout={handleLogout}
+      >
+        <CreatePostComposer currentUser={currentUser} />
+        <FeedList />
+      </FeedChrome>
+    </FeedThemeProvider>
   );
 }
