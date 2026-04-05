@@ -8,7 +8,7 @@ Frontend application for BuddyScript, a social feed platform built from the prov
 - Backend repository for code review: [BuddyScript Backend](https://github.com/MDRUHULAMIN7/BuddyScript)
 - Live application: [https://buddy-script-frontend-beryl.vercel.app](https://buddy-script-frontend-beryl.vercel.app)
 - Live API used by this frontend: [https://buddy-script-umber.vercel.app/api/v1](https://buddy-script-umber.vercel.app/api/v1)
-- Video walkthrough: add your unlisted/private YouTube link here before submission
+- Video walkthrough: https://youtu.be/BPAlDkaMrnI
 
 ## What I Built
 

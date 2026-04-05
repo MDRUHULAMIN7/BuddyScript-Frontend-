@@ -2,6 +2,9 @@ node_modules
 .next
 out
 coverage
+.env
+.env.*
+!.env.example
 .env.local
 .env*.local
 npm-debug.log*
